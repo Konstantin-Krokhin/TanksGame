@@ -14,7 +14,8 @@ enum class EFiringState : uint8
 {
 	Reloading,
 	Aiming,
-	Locked 
+	Locked,
+	OutOfAmmo
 };
 
 // Forward declaration
@@ -36,13 +37,16 @@ public:
 
 	void AimAt(FVector OutHitLocation);
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Firing")
 	void Fire();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Setup")
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 
 	EFiringState GetFiringState() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	int GetRoundsLeft() const;
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
@@ -72,4 +76,6 @@ private:
 	float ReloadTimeInSeconds = 3;
 
 	double LastFireTime = 0;
+
+	int RoundsLeft = 3;
 };

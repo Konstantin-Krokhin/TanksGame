@@ -11,7 +11,6 @@ void ATankPlayerController::BeginPlay()
 	AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponent)) { return; }
 	FoundAimingComponent(AimingComponent);
-	//UE_LOG(LogTemp, Warning, TEXT("PlayerController FOUND aiming component at Begin Play"));
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
@@ -27,6 +26,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 	if (!ensure(AimingComponent)) { return; }
 
 	FVector OutHitLocation; // Out parameter
+
 	if (GetSightRayHitLocation(OutHitLocation)) //It is going to line trace
 	{
 		AimingComponent->AimAt(OutHitLocation);
@@ -46,10 +46,10 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 	if (GetLookDirection(ScreenLocation, LookDirection))
 	{
 		// Line-trace along that LookDirection and see what we hit
-		GetLookVectorHitLocation(LookDirection, OutHitLocation);
+		return GetLookVectorHitLocation(LookDirection, OutHitLocation);
 	}
 
-	return true;
+	return false;
 }
 
 bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const

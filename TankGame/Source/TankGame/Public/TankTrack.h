@@ -13,24 +13,28 @@ UCLASS(meta = (BlueprintSpawnableComponent))
 class TANKGAME_API UTankTrack : public UStaticMeshComponent
 {
 	GENERATED_BODY()
-	
-public:
 
-	virtual void BeginPlay() override;
+public:
 	// Sets a throttle between -1 and +1
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void SetThrottle(float Throttle);
+	
+private:
+
+	virtual void BeginPlay() override;
+
+	void DriveTrack();
 
 	// Max force per track in Newtons
 	UPROPERTY(EditDefaultsOnly)
-	float TrackMaxDrivingForce = 20000000; // Assume 40 tonne tank and 1g accelleration
+	float TrackMaxDrivingForce = 30000000; // Assume 40 tonne tank and 1g accelleration
 
 	UTankTrack();
 
-	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
+	void ApplySidewaysForce();
 
-private:
 	UFUNCTION(BlueprintCallable)
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 
+	float CurrentThrottle = 0;
 };

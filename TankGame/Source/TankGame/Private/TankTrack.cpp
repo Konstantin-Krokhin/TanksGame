@@ -39,6 +39,11 @@ void UTankTrack::SetThrottle(float Throttle)
 	CurrentThrottle = FMath::Clamp<float>(CurrentThrottle + Throttle, -2.3, 2.3);
 }
 
+void UTankTrack::SetNotifyRigidBodyCollision(bool bNewNotifyRigidBodyCollision)
+{
+	bNewNotifyRigidBodyCollision = true;
+}
+
 void UTankTrack::DriveTrack()
 {
 	//FVector ForceApplied = this->GetForwardVector() * Throttle * this->TrackMaxDrivingForce;

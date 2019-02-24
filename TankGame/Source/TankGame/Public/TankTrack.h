@@ -31,6 +31,8 @@ private:
 
 	UTankTrack();
 
+	virtual void SetNotifyRigidBodyCollision(bool bNewNotifyRigidBodyCollision);
+
 	void ApplySidewaysForce();
 
 	UFUNCTION(BlueprintCallable)

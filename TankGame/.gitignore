@@ -4,7 +4,7 @@
 .vs/
 
 # Background Landscape
-.Content/PhotoR_Backgrounds/*
+Content/PhotoR_Backgrounds/*
 
 # Visual Studio 2015 database file
 *.VC.db

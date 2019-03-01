@@ -21,6 +21,10 @@ protected:
 	float AcceptanceRadius = 6000;
 
 private:
+	UFUNCTION()
+	void OnPossessedTankDeath();
+
+	virtual void SetPawn(APawn* InPawn) override;
 
 	void BeginPlay() override;
 

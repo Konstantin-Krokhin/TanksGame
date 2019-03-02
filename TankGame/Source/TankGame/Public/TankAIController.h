@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Engine/World.h"
 #include "CoreMinimal.h"
+#include "GameFramework/Pawn.h"
 #include "TankAIController.generated.h"
 
 class UTankAimingComponent;

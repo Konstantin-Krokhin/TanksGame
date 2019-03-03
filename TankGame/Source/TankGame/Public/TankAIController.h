@@ -19,7 +19,7 @@ class TANKGAME_API ATankAIController : public AAIController
 protected:
 	// How close AI Tank get to player
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-	float AcceptanceRadius = 6000;
+	float AcceptanceRadius = 10000;
 
 private:
 	UFUNCTION()

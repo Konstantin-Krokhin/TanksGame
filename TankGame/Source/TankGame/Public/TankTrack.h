@@ -15,28 +15,21 @@ class TANKGAME_API UTankTrack : public UStaticMeshComponent
 	GENERATED_BODY()
 
 public:
+	UTankTrack();
+
 	// Sets a throttle between -1 and +1
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void SetThrottle(float Throttle);
-	
-private:
-
-	virtual void BeginPlay() override;
-
-	void DriveTrack();
 
 	// Max force per track in Newtons
 	UPROPERTY(EditDefaultsOnly)
 	float TrackMaxDrivingForce = 30000000; // Assume 40 tonne tank and 1g accelleration
+	
+private:
 
-	UTankTrack();
+	void DriveTrack(float CurrentThrottle);
+
+	TArray <class ASprungWheel*> GetWheels() const;
 
 	virtual void SetNotifyRigidBodyCollision(bool bNewNotifyRigidBodyCollision);
-
-	void ApplySidewaysForce();
-
-	UFUNCTION(BlueprintCallable)
-	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
-
-	float CurrentThrottle = 0;
 };

@@ -15,10 +15,10 @@ class TANKGAME_API ATank : public APawn
 	GENERATED_BODY()
 
 public:
-	//Called by the engine when Actor Damage is dealt
+	// Called by the engine when Actor Damage is dealt
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEvent, class AController * EventInstigator, AActor * DamageCauser) override;
 
-	// Returnn current health as a percentage of starting health (0..1)
+	// Return current health as a percentage of starting health (0..1)
 	UFUNCTION(BlueprintPure, Category = "Health")
 	float GetHealthPercent() const;
 

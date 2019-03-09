@@ -11,7 +11,7 @@ void ATankPlayerController::BeginPlay()
 	
 	if (!GetPawn()) { return; }
 	AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
-	if (!ensure(AimingComponent)) { return; }
+	if (!AimingComponent) { return; }
 	FoundAimingComponent(AimingComponent);
 }
 
@@ -30,7 +30,22 @@ void ATankPlayerController::SetPawn(APawn* InPawn)
 
 void ATankPlayerController::OnPossessedTankDeath()
 {
-	StartSpectatingOnly();
+	FActorSpawnParameters ActorSpawnParams;
+	ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+	UClass* Character = LoadObject<UClass>(this, *FString("Blueprint'/Game/ParagonAurora/Aurora_BP.Aurora_BP_C'"));
+
+	auto TankLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
+
+	TankLocation.Z = 100.f;
+
+	APawn * Aurora = GetWorld()->SpawnActor<APawn>(Character, TankLocation, FRotator::ZeroRotator, ActorSpawnParams);
+
+	APawn* InPawn = nullptr;
+	auto PossessedTank = Cast<ATank>(InPawn);
+	PossessedTank->OnTankDied.RemoveDynamic(this, &ATankPlayerController::OnPossessedTankDeath);
+
+	//StartSpectatingOnly();
 }
 
 void ATankPlayerController::Tick(float DeltaTime)

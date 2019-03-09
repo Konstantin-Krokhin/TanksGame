@@ -3,6 +3,9 @@
 # Visual Studio 2015 user specific files
 .vs/
 
+# Aurora
+Content/ParagonAurora/*
+
 # Background Landscape
 Content/PhotoR_Backgrounds/*
 

@@ -21,15 +21,31 @@ void ATankPlayerController::SetPawn(APawn* InPawn)
 	if (InPawn)
 	{
 		auto PossessedTank = Cast<ATank>(InPawn);
-		if (!ensure(PossessedTank)) { return; }
+		if (!PossessedTank) { return; }
 
-		// Subscribe our local method to the Tank's death event
-		PossessedTank->OnTankDied.AddUniqueDynamic(this, &ATankPlayerController::OnPossessedTankDeath);
+		InPawnAurora = InPawn;
+		
+		if (!Aurora)
+		{
+			// Subscribe OnPossessedTankDeath method to the Tank's death event
+			PossessedTank->OnTankDied.AddUniqueDynamic(this, &ATankPlayerController::OnPossessedTankDeath);
+		}
+		else
+		{
+			// Subscribe OnPossessedAuroraDeath method to the Aurora's death event
+			auto PossessedAurora = Cast<ATank>(InPawnAurora);
+			if (!PossessedAurora) { return; }
+			PossessedAurora->OnTankDied.AddUniqueDynamic(this, &ATankPlayerController::OnPossessedAuroraDeath);
+		}
 	}
 }
 
 void ATankPlayerController::OnPossessedTankDeath()
 {
+	auto PossessedTank = Cast<ATank>(InPawnAurora);
+	if (!PossessedTank) { return; }
+	PossessedTank->OnTankDied.RemoveDynamic(this, &ATankPlayerController::OnPossessedTankDeath);
+
 	FActorSpawnParameters ActorSpawnParams;
 	ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
@@ -37,15 +53,14 @@ void ATankPlayerController::OnPossessedTankDeath()
 
 	auto TankLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
 
-	TankLocation.Z = 100.f;
+	TankLocation.Z = 300.f;
 
-	APawn * Aurora = GetWorld()->SpawnActor<APawn>(Character, TankLocation, FRotator::ZeroRotator, ActorSpawnParams);
+	Aurora = GetWorld()->SpawnActor<APawn>(Character, TankLocation, FRotator::ZeroRotator, ActorSpawnParams);
+}
 
-	APawn* InPawn = nullptr;
-	auto PossessedTank = Cast<ATank>(InPawn);
-	PossessedTank->OnTankDied.RemoveDynamic(this, &ATankPlayerController::OnPossessedTankDeath);
-
-	//StartSpectatingOnly();
+void ATankPlayerController::OnPossessedAuroraDeath()
+{
+	StartSpectatingOnly();
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
@@ -58,7 +73,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 {
 	if (!GetPawn()) { return; } // if not possesing
 	AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
-	if (!ensure(AimingComponent)) { return; }
+	if (!AimingComponent) { return; }
 
 	FVector OutHitLocation; // Out parameter
 

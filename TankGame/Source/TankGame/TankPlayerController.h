@@ -18,6 +18,11 @@ class TANKGAME_API ATankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 	
+public:
+	APawn* InPawnAurora = nullptr;
+
+	APawn * Aurora = nullptr;
+
 protected:
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
@@ -26,6 +31,9 @@ protected:
 private:
 	UFUNCTION()
 	void OnPossessedTankDeath();
+
+	UFUNCTION()
+	void OnPossessedAuroraDeath();
 
 	virtual void SetPawn(APawn* InPawn) override;
 

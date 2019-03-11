@@ -37,11 +37,11 @@ protected:
 
 private:
 
-	/*UFUNCTION(BlueprintCallable)
-	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);*/
+	UFUNCTION(BlueprintCallable)
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 
-	//UPROPERTY(EditDefaultsOnly, Category = "Setup")
-	//float SwordDamage = 20.f;
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	float SwordDamage = 20.f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	int32 StartingHealth = 20;

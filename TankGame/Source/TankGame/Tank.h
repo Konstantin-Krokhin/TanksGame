@@ -24,19 +24,17 @@ public:
 	float GetHealthPercent() const;
 
 	virtual void BeginPlay() override;
-
-	virtual void Tick(float DeltaTime) override;
 	
 	FTankDelegate OnTankDied;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
 	float CurrentHealth;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Setup")
-	float StartingHealth = 100;
-
 private:
 	ATank();
+
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	float StartingHealth = 100;
 
 	//UPROPERTY(VisibleAnywhere, Category = "Health")
 	//int32 CurrentHealth;

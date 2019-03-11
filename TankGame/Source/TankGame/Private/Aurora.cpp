@@ -17,7 +17,6 @@ void AAurora::BeginPlay()
 	AuroraCurrentHealth = StartingHealth;
 }
 
-/*
 void AAurora::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Entered OnHit Event !!!"));
@@ -33,7 +32,7 @@ void AAurora::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrim
 			TArray<AActor*>() // damage all actors
 		);
 	}
-}*/
+}
 
 // Called by the engine when Actor Damage is dealt
 float AAurora::TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEvent, class AController * EventInstigator, AActor * DamageCauser)

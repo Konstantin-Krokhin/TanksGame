@@ -41,7 +41,7 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 		this, 
 		ProjectileDamage,
 		GetActorLocation(), 
-		ExplosionForce->Radius, 
+		ExplosionForce->Radius,
 		UDamageType::StaticClass(),
 		TArray<AActor*>() // damage all actors
 		);

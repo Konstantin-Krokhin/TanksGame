@@ -8,6 +8,8 @@
 #include "TankPlayerController.generated.h"
 
 class UTankAimingComponent;
+class AAurora;
+class ATank;
 
 /*
 	Responsible for helping the player to aim.
@@ -19,9 +21,9 @@ class TANKGAME_API ATankPlayerController : public APlayerController
 	GENERATED_BODY()
 	
 public:
-	APawn* InPawnAurora = nullptr;
+	ATank* PawnTank = nullptr;
 
-	APawn * Aurora = nullptr;
+	AAurora* Aurora = nullptr;
 
 protected:
 
@@ -33,7 +35,7 @@ private:
 	void OnPossessedTankDeath();
 
 	UFUNCTION()
-	void OnPossessedAuroraDeath();
+	void OnAuroraDeath();
 
 	virtual void SetPawn(APawn* InPawn) override;
 

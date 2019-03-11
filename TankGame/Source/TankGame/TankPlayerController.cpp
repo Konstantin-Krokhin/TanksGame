@@ -2,6 +2,7 @@
 
 #include "TankPlayerController.h"
 #include "TankAimingComponent.h"
+#include "Aurora.h"
 #include "Tank.h"
 
 
@@ -20,31 +21,24 @@ void ATankPlayerController::SetPawn(APawn* InPawn)
 	Super::SetPawn(InPawn);
 	if (InPawn)
 	{
-		auto PossessedTank = Cast<ATank>(InPawn);
-		if (!PossessedTank) { return; }
+		//auto PossessedTank = Cast<ATank>(InPawn);
+		//if (!PossessedTank) { return; }
 
-		InPawnAurora = InPawn;
+		PawnTank = Cast<ATank>(InPawn);
+		if (!PawnTank) { return; }
 		
-		if (!Aurora)
-		{
-			// Subscribe OnPossessedTankDeath method to the Tank's death event
-			PossessedTank->OnTankDied.AddUniqueDynamic(this, &ATankPlayerController::OnPossessedTankDeath);
-		}
-		else
-		{
-			// Subscribe OnPossessedAuroraDeath method to the Aurora's death event
-			auto PossessedAurora = Cast<ATank>(InPawnAurora);
-			if (!PossessedAurora) { return; }
-			PossessedAurora->OnTankDied.AddUniqueDynamic(this, &ATankPlayerController::OnPossessedAuroraDeath);
-		}
+		// Subscribe OnPossessedTankDeath method to the Tank's death event
+		PawnTank->OnTankDied.AddUniqueDynamic(this, &ATankPlayerController::OnPossessedTankDeath);
 	}
 }
 
 void ATankPlayerController::OnPossessedTankDeath()
 {
-	auto PossessedTank = Cast<ATank>(InPawnAurora);
-	if (!PossessedTank) { return; }
-	PossessedTank->OnTankDied.RemoveDynamic(this, &ATankPlayerController::OnPossessedTankDeath);
+	//auto PossessedTank = Cast<ATank>(PawnTank);
+	if (!PawnTank) { return; }
+	PawnTank->OnTankDied.RemoveDynamic(this, &ATankPlayerController::OnPossessedTankDeath);
+
+	//DetachFromControllerPendingDestroy()
 
 	FActorSpawnParameters ActorSpawnParams;
 	ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
@@ -55,10 +49,14 @@ void ATankPlayerController::OnPossessedTankDeath()
 
 	TankLocation.Z = 300.f;
 
-	Aurora = GetWorld()->SpawnActor<APawn>(Character, TankLocation, FRotator::ZeroRotator, ActorSpawnParams);
+	Aurora = GetWorld()->SpawnActor<AAurora>(Character, TankLocation, FRotator::ZeroRotator, ActorSpawnParams);
+
+	if (!Aurora) { return; }
+	// Subscribe OnPossessedAuroraDeath method to the Aurora's death event
+	Aurora->AuroraDied.AddUniqueDynamic(this, &ATankPlayerController::OnAuroraDeath);
 }
 
-void ATankPlayerController::OnPossessedAuroraDeath()
+void ATankPlayerController::OnAuroraDeath()
 {
 	StartSpectatingOnly();
 }

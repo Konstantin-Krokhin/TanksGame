@@ -17,25 +17,9 @@ void AAurora::BeginPlay()
 	AuroraCurrentHealth = StartingHealth;
 }
 
-void AAurora::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
-{
-	UE_LOG(LogTemp, Warning, TEXT("Entered OnHit Event !!!"));
-	if (GetWorld()->GetFirstPlayerController()->IsInputKeyDown(EKeys::LeftMouseButton))
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Entered if !!!!!!!!!!!!!!!!!!!!!!!!!"));
-		UGameplayStatics::ApplyRadialDamage(
-			this,
-			SwordDamage,
-			GetActorLocation(),
-			100.f,
-			UDamageType::StaticClass(),
-			TArray<AActor*>() // damage all actors
-		);
-	}
-}
-
 // Called by the engine when Actor Damage is dealt
-float AAurora::TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEvent, class AController * EventInstigator, AActor * DamageCauser)
+float AAurora::TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEvent, 
+	class AController * EventInstigator, AActor * DamageCauser)
 {
 	int32 DamagePoints = FPlatformMath::RoundToInt(DamageAmount);
 	int32 DamageToApply = FMath::Clamp(DamagePoints, 0, AuroraCurrentHealth);
@@ -45,7 +29,6 @@ float AAurora::TakeDamage(float DamageAmount, struct FDamageEvent const & Damage
 	{
 		AuroraDied.Broadcast();
 	}
-
 
 	return DamageToApply;
 }

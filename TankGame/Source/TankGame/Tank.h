@@ -35,7 +35,4 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	float StartingHealth = 100;
-
-	//UPROPERTY(VisibleAnywhere, Category = "Health")
-	//int32 CurrentHealth;
 };
